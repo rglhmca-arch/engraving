@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ETCHORA — Personalized Engraving</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:"DM Sans",sans-serif;
+    background:#faf9f6;
+    color:#181818;
+}
+
+button,input,select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+/* NAVBAR */
+
+.navbar{
+    height:72px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 7%;
+    background:#fff;
+    border-bottom:1px solid #eee;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.logo{
+    font-family:"Playfair Display",serif;
+    font-size:27px;
+    font-weight:700;
+    letter-spacing:2px;
+}
+
+.logo span{
+    color:#b58a42;
+}
+
+.nav-links{
+    display:flex;
+    gap:32px;
+    list-style:none;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:#222;
+    font-size:14px;
+}
+
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.cart-btn{
+    border:0;
+    background:#181818;
+    color:white;
+    padding:10px 17px;
+    border-radius:25px;
+}
+
+.cart-count{
+    background:#c99a52;
+    padding:2px 7px;
+    border-radius:50%;
+    margin-left:4px;
+}
+
+/* HERO */
+
+.hero{
+    min-height:580px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    background:#171717;
+    color:white;
+}
+
+.hero-content{
+    display:flex;
+    justify-content:center;
+    flex-direction:column;
+    padding:8%;
+}
+
+.hero-small{
+    color:#c99a52;
+    letter-spacing:3px;
+    font-size:12px;
+    margin-bottom:20px;
+}
+
+.hero h1{
+    font-family:"Playfair Display",serif;
+    font-size:65px;
+    line-height:1.05;
+    max-width:600px;
+}
+
+.hero h1 span{
+    color:#d0a45e;
+}
+
+.hero p{
+    color:#bbb;
+    max-width:480px;
+    line-height:1.7;
+    margin:25px 0;
+}
+
+.hero-btn{
+    width:max-content;
+    padding:14px 25px;
+    border:0;
+    background:#c99a52;
+    color:white;
+    border-radius:4px;
+    font-weight:600;
+}
+
+.hero-image{
+    background:
+    linear-gradient(90deg,#17171700,#17171722),
+    url("https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=1200&q=85")
+    center/cover;
+}
+
+/* OFFER BAR */
+
+.offer{
+    background:#c99a52;
+    color:white;
+    padding:13px;
+    text-align:center;
+    font-size:13px;
+    font-weight:600;
+}
+
+/* SECTION */
+
+.section{
+    padding:70px 7%;
+}
+
+.section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+    margin-bottom:35px;
+}
+
+.section-title{
+    font-family:"Playfair Display",serif;
+    font-size:40px;
+}
+
+.section-sub{
+    color:#777;
+    margin-top:8px;
+}
+
+/* FILTER */
+
+.filters{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.filter{
+    padding:9px 17px;
+    border:1px solid #ddd;
+    background:white;
+    border-radius:30px;
+}
+
+.filter.active,
+.filter:hover{
+    background:#181818;
+    color:white;
+}
+
+/* PRODUCTS */
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:22px;
+}
+
+.product{
+    background:white;
+    border:1px solid #eee;
+    overflow:hidden;
+    position:relative;
+    transition:.25s;
+}
+
+.product:hover{
+    transform:translateY(-5px);
+    box-shadow:0 15px 35px #0000000c;
+}
+
+.product-img{
+    height:270px;
+    width:100%;
+    object-fit:cover;
+}
+
+.badge{
+    position:absolute;
+    top:12px;
+    left:12px;
+    background:#181818;
+    color:white;
+    padding:6px 10px;
+    font-size:11px;
+    border-radius:3px;
+}
+
+.product-info{
+    padding:18px;
+}
+
+.product-category{
+    color:#999;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.product-name{
+    margin:7px 0;
+    font-weight:600;
+}
+
+.price{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.old-price{
+    color:#999;
+    text-decoration:line-through;
+    font-size:13px;
+}
+
+.new-price{
+    font-size:18px;
+    font-weight:700;
+}
+
+.add-btn{
+    width:100%;
+    margin-top:15px;
+    padding:11px;
+    border:1px solid #181818;
+    background:white;
+}
+
+.add-btn:hover{
+    background:#181818;
+    color:white;
+}
+
+/* CUSTOM SECTION */
+
+.custom{
+    background:#eeeae2;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
+    align-items:center;
+}
+
+.custom-image{
+    height:470px;
+    background:
+    url("https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&fit=crop&w=1000&q=85")
+    center/cover;
+}
+
+.custom-content h2{
+    font-family:"Playfair Display",serif;
+    font-size:46px;
+}
+
+.custom-content p{
+    color:#666;
+    line-height:1.7;
+    margin:20px 0;
+}
+
+.steps{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-top:30px;
+}
+
+.step{
+    background:white;
+    padding:18px;
+}
+
+.step strong{
+    display:block;
+    margin-bottom:7px;
+}
+
+.step small{
+    color:#777;
+}
+
+/* WHY */
+
+.features{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.feature{
+    padding:30px;
+    background:white;
+    border:1px solid #eee;
+}
+
+.feature-icon{
+    font-size:28px;
+    margin-bottom:15px;
+}
+
+.feature p{
+    color:#777;
+    margin-top:8px;
+    font-size:14px;
+    line-height:1.5;
+}
+
+/* FOOTER */
+
+footer{
+    background:#171717;
+    color:white;
+    padding:55px 7% 25px;
+}
+
+.footer-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr 1fr;
+    gap:40px;
+}
+
+footer h3{
+    margin-bottom:18px;
+}
+
+footer p,
+footer li{
+    color:#aaa;
+    font-size:14px;
+    line-height:2;
+    list-style:none;
+}
+
+.copyright{
+    border-top:1px solid #333;
+    margin-top:40px;
+    padding-top:20px;
+    color:#777;
+    font-size:12px;
+}
+
+/* CART */
+
+.overlay{
+    position:fixed;
+    inset:0;
+    background:#0008;
+    z-index:2000;
+    display:none;
+}
+
+.cart-panel{
+    position:absolute;
+    right:0;
+    top:0;
+    height:100%;
+    width:430px;
+    max-width:100%;
+    background:white;
+    padding:25px;
+    overflow:auto;
+}
+
+.cart-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid #eee;
+    padding-bottom:18px;
+}
+
+.close{
+    border:0;
+    background:none;
+    font-size:25px;
+}
+
+.cart-item{
+    display:grid;
+    grid-template-columns:70px 1fr auto;
+    gap:12px;
+    padding:18px 0;
+    border-bottom:1px solid #eee;
+}
+
+.cart-item img{
+    width:70px;
+    height:70px;
+    object-fit:cover;
+}
+
+.cart-item h4{
+    font-size:14px;
+}
+
+.cart-item small{
+    color:#888;
+}
+
+.qty{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:8px;
+}
+
+.qty button{
+    width:23px;
+    height:23px;
+    border:1px solid #ddd;
+    background:white;
+}
+
+.remove{
+    color:#b33;
+    border:0;
+    background:none;
+    font-size:12px;
+}
+
+.cart-total{
+    margin-top:25px;
+}
+
+.total-row{
+    display:flex;
+    justify-content:space-between;
+    margin:10px 0;
+}
+
+.discount{
+    color:#29915b;
+}
+
+.checkout{
+    width:100%;
+    border:0;
+    background:#181818;
+    color:white;
+    padding:14px;
+    margin-top:18px;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:#0009;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:3000;
+}
+
+.modal-box{
+    background:white;
+    width:500px;
+    max-width:92%;
+    padding:30px;
+}
+
+.modal-box h2{
+    font-family:"Playfair Display",serif;
+    margin-bottom:20px;
+}
+
+.input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    margin-bottom:13px;
+}
+
+.engrave-preview{
+    background:#f3f0ea;
+    padding:20px;
+    text-align:center;
+    margin:10px 0 20px;
+}
+
+.preview-text{
+    font-family:"Playfair Display",serif;
+    font-size:25px;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+    .nav-links{
+        display:none;
+    }
+
+    .hero{
+        grid-template-columns:1fr;
+    }
+
+    .hero-image{
+        min-height:350px;
+    }
+
+    .hero h1{
+        font-size:48px;
+    }
+
+    .products{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .features{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .custom{
+        grid-template-columns:1fr;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:550px){
+
+    .navbar{
+        padding:0 5%;
+    }
+
+    .section{
+        padding:45px 5%;
+    }
+
+    .products{
+        grid-template-columns:1fr;
+    }
+
+    .features{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        font-size:42px;
+    }
+
+    .steps{
+        grid-template-columns:1fr;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr;
+    }
+
+    .section-head{
+        display:block;
+    }
+
+    .filters{
+        margin-top:20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        ETCH<span>ORA</span>
+    </div>
+
+    <ul class="nav-links">
+        <li><a href="#shop">Shop</a></li>
+        <li><a href="#custom">Custom Engraving</a></li>
+        <li><a href="#why">Why Us</a></li>
+    </ul>
+
+    <div class="nav-right">
+        <button class="cart-btn" onclick="openCart()">
+            🛒 Cart
+            <span class="cart-count" id="cartCount">0</span>
+        </button>
+    </div>
+
+</nav>
+
+
+<!-- OFFER -->
+
+<div class="offer">
+    ✨ LIMITED OFFER — Get 15% OFF on orders above ₹999 | Code: ETCH15
+</div>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="hero-small">
+            MADE PERSONAL
+        </div>
+
+        <h1>
+            Wear Your<br>
+            <span>Story.</span>
+        </h1>
+
+        <p>
+            Premium personalized engraving for jewellery,
+            metal tags, wallets, gifts and everything that
+            deserves your signature.
+        </p>
+
+        <button class="hero-btn"
+                onclick="document.getElementById('shop').scrollIntoView()">
+            Explore Collection →
+        </button>
+
+    </div>
+
+    <div class="hero-image"></div>
+
+</section>
+
+
+<!-- SHOP -->
+
+<section class="section" id="shop">
+
+    <div class="section-head">
+
+        <div>
+            <h2 class="section-title">The Collection</h2>
+            <p class="section-sub">
+                Designed to carry something that matters.
+            </p>
+        </div>
+
+        <div class="filters">
+
+            <button class="filter active"
+                    onclick="filterProducts('all',this)">
+                All
+            </button>
+
+            <button class="filter"
+                    onclick="filterProducts('jewellery',this)">
+                Jewellery
+            </button>
+
+            <button class="filter"
+                    onclick="filterProducts('metal',this)">
+                Metal
+            </button>
+
+            <button class="filter"
+                    onclick="filterProducts('gifts',this)">
+                Gifts
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="products" id="products"></div>
+
+</section>
+
+
+<!-- CUSTOM -->
+
+<section class="section custom" id="custom">
+
+    <div class="custom-image"></div>
+
+    <div class="custom-content">
+
+        <div class="hero-small">YOUR DESIGN</div>
+
+        <h2>
+            Put Your Words<br>
+            On Something Real.
+        </h2>
+
+        <p>
+            Name. Date. Initials. Coordinates. A secret message.
+            Whatever means something to you, we'll engrave it.
+        </p>
+
+        <button class="hero-btn" onclick="openCustom()">
+            Create Your Engraving →
+        </button>
+
+        <div class="steps">
+
+            <div class="step">
+                <strong>01 — Choose</strong>
+                <small>Select your product.</small>
+            </div>
+
+            <div class="step">
+                <strong>02 — Personalize</strong>
+                <small>Add your engraving.</small>
+            </div>
+
+            <div class="step">
+                <strong>03 — Receive</strong>
+                <small>We make & ship it.</small>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- WHY -->
+
+<section class="section" id="why">
+
+    <div class="section-head">
+        <div>
+            <h2 class="section-title">Why ETCHORA?</h2>
+            <p class="section-sub">
+                Small details. Big meaning.
+            </p>
+        </div>
+    </div>
+
+    <div class="features">
+
+        <div class="feature">
+            <div class="feature-icon">✦</div>
+            <h3>Precision Engraving</h3>
+            <p>Sharp and detailed engraving designed to last.</p>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">◇</div>
+            <h3>Premium Materials</h3>
+            <p>Carefully selected metals and materials.</p>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">♡</div>
+            <h3>Made Personal</h3>
+            <p>Your words make every product unique.</p>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">↗</div>
+            <h3>Fast Delivery</h3>
+            <p>Personalized products shipped with care.</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <div class="footer-grid">
+
+        <div>
+            <h2 class="logo">
+                ETCH<span>ORA</span>
+            </h2>
+
+            <p>
+                Personalized engraving for people
+                who want ordinary objects to mean more.
+            </p>
+        </div>
+
+        <div>
+            <h3>Shop</h3>
+            <ul>
+                <li>Jewellery</li>
+                <li>Metal Tags</li>
+                <li>Keychains</li>
+                <li>Gift Sets</li>
+            </ul>
+        </div>
+
+        <div>
+            <h3>Help</h3>
+            <ul>
+                <li>Shipping</li>
+                <li>Returns</li>
+                <li>Contact</li>
+                <li>Track Order</li>
+            </ul>
+        </div>
+
+        <div>
+            <h3>Follow</h3>
+            <ul>
+                <li>Instagram</li>
+                <li>YouTube</li>
+                <li>WhatsApp</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="copyright">
+        © 2026 ETCHORA. Crafted with meaning.
+    </div>
+
+</footer>
+
+
+<!-- CART -->
+
+<div class="overlay" id="cartOverlay">
+
+    <div class="cart-panel">
+
+        <div class="cart-head">
+
+            <h2>Your Cart</h2>
+
+            <button class="close" onclick="closeCart()">
+                ×
+            </button>
+
+        </div>
+
+        <div id="cartItems"></div>
+
+        <div class="cart-total">
+
+            <div class="total-row">
+                <span>Subtotal</span>
+                <strong id="subtotal">₹0</strong>
+            </div>
+
+            <div class="total-row discount">
+                <span>Discount</span>
+                <strong id="discount">- ₹0</strong>
+            </div>
+
+            <div class="total-row">
+                <span>Shipping</span>
+                <strong id="shipping">₹0</strong>
+            </div>
+
+            <hr>
+
+            <div class="total-row">
+                <strong>Total</strong>
+                <strong id="total">₹0</strong>
+            </div>
+
+            <button class="checkout" onclick="checkout()">
+                Proceed to Checkout →
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- CUSTOM MODAL -->
+
+<div class="modal" id="customModal">
+
+    <div class="modal-box">
+
+        <h2>Create Your Engraving</h2>
+
+        <input
+            class="input"
+            id="customText"
+            maxlength="20"
+            placeholder="Enter name / date / message"
+            oninput="updatePreview()"
+        >
+
+        <select class="input" id="customMaterial">
+
+            <option value="499">Stainless Steel Tag — ₹499</option>
+            <option value="699">Premium Silver Tag — ₹699</option>
+            <option value="799">Gold Plated Tag — ₹799</option>
+            <option value="999">Premium Black Metal — ₹999</option>
+
+        </select>
+
+        <div class="engrave-preview">
+
+            <small>ENGRAVING PREVIEW</small>
+
+            <div class="preview-text" id="previewText">
+                Your Name
+            </div>
+
+        </div>
+
+        <button class="checkout" onclick="addCustomProduct()">
+            Add Personalized Product
+        </button>
+
+        <button
+            style="width:100%;border:0;background:none;padding:13px"
+            onclick="closeCustom()">
+            Cancel
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* PRODUCT DATABASE */
+
+const products = [
+
+{
+    id:1,
+    name:"Classic Engraved Ring",
+    category:"jewellery",
+    price:899,
+    oldPrice:1199,
+    image:"https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=700&q=80",
+    badge:"BESTSELLER"
+},
+
+{
+    id:2,
+    name:"Minimal Name Bracelet",
+    category:"jewellery",
+    price:699,
+    oldPrice:999,
+    image:"https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=700&q=80",
+    badge:"-30%"
+},
+
+{
+    id:3,
+    name:"Personalized Metal Tag",
+    category:"metal",
+    price:499,
+    oldPrice:699,
+    image:"https://images.unsplash.com/photo-1589674781759-c21c37956a44?auto=format&fit=crop&w=700&q=80",
+    badge:"POPULAR"
+},
+
+{
+    id:4,
+    name:"Engraved Keychain",
+    category:"gifts",
+    price:399,
+    oldPrice:599,
+    image:"https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&w=700&q=80",
+    badge:"SALE"
+},
+
+{
+    id:5,
+    name:"Coordinates Pendant",
+    category:"jewellery",
+    price:799,
+    oldPrice:1099,
+    image:"https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=700&q=80",
+    badge:"NEW"
+},
+
+{
+    id:6,
+    name:"Black Steel ID Tag",
+    category:"metal",
+    price:599,
+    oldPrice:799,
+    image:"https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=700&q=80",
+    badge:"HOT"
+},
+
+{
+    id:7,
+    name:"Engraved Gift Coin",
+    category:"gifts",
+    price:349,
+    oldPrice:499,
+    image:"https://images.unsplash.com/photo-1627293509201-cd2f8c5e7e5a?auto=format&fit=crop&w=700&q=80",
+    badge:"GIFT"
+},
+
+{
+    id:8,
+    name:"Signature Wallet Card",
+    category:"gifts",
+    price:449,
+    oldPrice:649,
+    image:"https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=700&q=80",
+    badge:"TRENDING"
+}
+
+];
+
+
+let cart = [];
+
+let currentFilter = "all";
+
+
+/* DISPLAY PRODUCTS */
+
+function displayProducts(){
+
+    const container =
+        document.getElementById("products");
+
+    const filtered =
+        currentFilter === "all"
+        ? products
+        : products.filter(
+            p => p.category === currentFilter
+        );
+
+    container.innerHTML = filtered.map(p => `
+
+        <div class="product">
+
+            <span class="badge">${p.badge}</span>
+
+            <img
+                class="product-img"
+                src="${p.image}"
+                alt="${p.name}"
+            >
+
+            <div class="product-info">
+
+                <div class="product-category">
+                    ${p.category}
+                </div>
+
+                <div class="product-name">
+                    ${p.name}
+                </div>
+
+                <div class="price">
+
+                    <span class="new-price">
+                        ₹${p.price}
+                    </span>
+
+                    <span class="old-price">
+                        ₹${p.oldPrice}
+                    </span>
+
+                </div>
+
+                <button
+                    class="add-btn"
+                    onclick="addToCart(${p.id})">
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+    `).join("");
+
+}
+
+
+/* FILTER */
+
+function filterProducts(category, button){
+
+    currentFilter = category;
+
+    document.querySelectorAll(".filter")
+        .forEach(btn => btn.classList.remove("active"));
+
+    button.classList.add("active");
+
+    displayProducts();
+}
+
+
+/* ADD TO CART */
+
+function addToCart(id){
+
+    const product = products.find(p => p.id === id);
+
+    const existing =
+        cart.find(item => item.id === id);
+
+    if(existing){
+
+        existing.quantity++;
+
+    }else{
+
+        cart.push({
+            ...product,
+            quantity:1
+        });
+
+    }
+
+    updateCart();
+
+    openCart();
+}
+
+
+/* CUSTOM PRODUCT */
+
+function openCustom(){
+
+    document.getElementById("customModal")
+        .style.display="flex";
+
+}
+
+function closeCustom(){
+
+    document.getElementById("customModal")
+        .style.display="none";
+
+}
+
+function updatePreview(){
+
+    const text =
+        document.getElementById("customText").value;
+
+    document.getElementById("previewText")
+        .textContent = text || "Your Name";
+
+}
+
+
+function addCustomProduct(){
+
+    const text =
+        document.getElementById("customText").value.trim();
+
+    const price =
+        Number(document.getElementById("customMaterial").value);
+
+    if(!text){
+
+        alert("Please enter your engraving text.");
+
+        return;
+    }
+
+    cart.push({
+
+        id:"custom-"+Date.now(),
+
+        name:"Personalized Engraving — " + text,
+
+        category:"custom",
+
+        price:price,
+
+        oldPrice:price,
+
+        image:"https://images.unsplash.com/photo-1589674781759-c21c37956a44?auto=format&fit=crop&w=700&q=80",
+
+        quantity:1
+
+    });
+
+    closeCustom();
+
+    updateCart();
+
+    openCart();
+
+}
+
+
+/* CART */
+
+function updateCart(){
+
+    document.getElementById("cartCount")
+        .textContent =
+        cart.reduce(
+            (sum,item) => sum + item.quantity,
+            0
+        );
+
+
+    const container =
+        document.getElementById("cartItems");
+
+
+    if(cart.length === 0){
+
+        container.innerHTML = `
+            <p style="padding:40px 0;text-align:center;color:#888">
+                Your cart is empty.
+            </p>
+        `;
+
+    }else{
+
+        container.innerHTML = cart.map((item,index)=>`
+
+            <div class="cart-item">
+
+                <img src="${item.image}">
+
+                <div>
+
+                    <h4>${item.name}</h4>
+
+                    <small>₹${item.price}</small>
+
+                    <div class="qty">
+
+                        <button onclick="changeQty(${index},-1)">
+                            −
+                        </button>
+
+                        <span>${item.quantity}</span>
+
+                        <button onclick="changeQty(${index},1)">
+                            +
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <button
+                    class="remove"
+                    onclick="removeItem(${index})">
+                    Remove
+                </button>
+
+            </div>
+
+        `).join("");
+
+    }
+
+
+    calculateTotal();
+
+}
+
+
+/* QUANTITY */
+
+function changeQty(index, amount){
+
+    cart[index].quantity += amount;
+
+    if(cart[index].quantity <= 0){
+
+        cart.splice(index,1);
+
+    }
+
+    updateCart();
+
+}
+
+
+/* REMOVE */
+
+function removeItem(index){
+
+    cart.splice(index,1);
+
+    updateCart();
+
+}
+
+
+/* TOTAL */
+
+function calculateTotal(){
+
+    let subtotal =
+        cart.reduce(
+            (sum,item) =>
+                sum + item.price * item.quantity,
+            0
+        );
+
+
+    let discount = 0;
+
+
+    /* 15% discount above ₹999 */
+
+    if(subtotal >= 999){
+
+        discount = Math.round(subtotal * .15);
+
+    }
+
+
+    const shipping =
+        subtotal >= 999 || subtotal === 0
+        ? 0
+        : 49;
+
+
+    const total =
+        subtotal - discount + shipping;
+
+
+    document.getElementById("subtotal")
+        .textContent = "₹" + subtotal;
+
+
+    document.getElementById("discount")
+        .textContent = "- ₹" + discount;
+
+
+    document.getElementById("shipping")
+        .textContent =
+        shipping === 0
+        ? "FREE"
+        : "₹" + shipping;
+
+
+    document.getElementById("total")
+        .textContent = "₹" + total;
+
+}
+
+
+/* CART OPEN */
+
+function openCart(){
+
+    document.getElementById("cartOverlay")
+        .style.display="block";
+
+}
+
+
+/* CART CLOSE */
+
+function closeCart(){
+
+    document.getElementById("cartOverlay")
+        .style.display="none";
+
+}
+
+
+/* CHECKOUT */
+
+function checkout(){
+
+    if(cart.length === 0){
+
+        alert("Your cart is empty!");
+
+        return;
+
+    }
+
+    alert(
+        "Checkout demo 🚀\n\n" +
+        "In a real website this button can connect to Razorpay / Stripe / UPI payment."
+    );
+
+}
+
+
+/* INITIAL */
+
+displayProducts();
+
+updateCart();
+
+</script>
+
+</body>
+</html>
